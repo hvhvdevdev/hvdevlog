@@ -1,0 +1,12 @@
+{% if not page.title %}
+<section class="hero is-primary is-medium">
+    <div class="hero-body">
+        <p class="title">
+            {{ config.title }}
+        </p>
+        <p class="subtitle is-family-secondary">
+            {{ config.description }}
+        </p>
+    </div>
+</section>
+{% endif %}

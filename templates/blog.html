@@ -1,0 +1,26 @@
+{% extends "base.html" %} {% block content %}
+<h1 class="title">
+    {{ section.title }}
+</h1>
+<div class="columns is-multiline">
+    {% for page in section.pages %}
+    <!-- <li><a href="{{ page.permalink | safe }}">{{ page.title }}</a></li> -->
+    <div class="column is-one-third">
+        <div class="box is-shadowless mx-0 px-0" style="height: 100%;">
+            <p class="mb-3">
+                <a href="{{ page.permalink }}"> <strong>
+        {{ page.title }}
+        </strong></a>
+            </p>
+            <p>
+                {{ page.summary | safe }}
+                <a href="{{ page.permalink }}">Read more...</a>
+            </p>
+            <p class="mt-3">
+                <small><i>Posted on {{ page.date }}</i></small>
+            </p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock content %}
