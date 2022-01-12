@@ -1,5 +1,5 @@
 # The URL the site will be built for
-base_url = "https://hvcode.net"
+base_url = "https://hvdev.cc"
 
 title = "hvdev"
 description = "Code. Tales. Lonely traveler in fantasy realms."
