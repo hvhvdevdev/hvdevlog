@@ -1,7 +1,6 @@
 +++
 title = "My first post"
-date = 2019-11-27
-summary = "a"
+date = 2022-01-10
 +++
 
 This is my first blog post.
@@ -11,7 +10,7 @@ This is my first blog post.
 
 ```toml
 # The URL the site will be built for
-base_url = "https://blog.hvcode.net"
+base_url = "http://hvdev.cc"
 
 # Whether to automatically compile all Sass files in the sass directory
 compile_sass = true
