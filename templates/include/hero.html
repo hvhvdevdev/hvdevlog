@@ -1,5 +1,5 @@
 {% if not page.title %}
-<section class="hero is-primary is-medium">
+<section class="hero is-primary {% if not section.title %} is-medium {% endif %}">
     <div class="hero-body">
         <p class="title">
             {{ config.title }}
