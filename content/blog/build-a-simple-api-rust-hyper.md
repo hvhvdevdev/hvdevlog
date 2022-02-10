@@ -119,5 +119,5 @@ C:\Users\hai>
 
 It works correctly this time.
 
-In the next part of this tutorial, I will talk about routing and route matching so that the counter do not update 
+In the next part of this tutorial, I will talk about routing and route matching so that the counter does not update 
 when `favicon.ico` is requested.
