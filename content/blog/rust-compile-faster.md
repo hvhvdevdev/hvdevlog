@@ -14,3 +14,6 @@ Although users only care about the runtime, compile time optimization bring deve
 
 - Cheaper CD/CI cost.
 - Less time wasted when compiling after making changes to a large project.
+
+## How to make Rust compile faster?
+
