@@ -17,3 +17,15 @@ Although users only care about the runtime, compile time optimization bring deve
 
 ## How to make Rust compile faster?
 
+### Update Rust Toolchain and Compiler
+
+Run `rustup update` to get the latest Rust version. Great efforts by Rust compiler team had made Rust compiler compile faster in its newer version.
+
+### Split code into crates
+
+Using *workspaces*, we can split our large crate into smaller ones to avoid repetitive compilation because only crates with changes will need recompilation.
+
+### CI Caching
+
+Often, our code get rebuilt from scratch on CI. We can still do incremental build by caching `~/.cargo` and `target/` from previous builds.
+
