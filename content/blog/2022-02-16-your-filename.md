@@ -10,4 +10,9 @@ We all know that compiling Rust code is often so slow because Rust actually pref
 
 ## But why should I care about compile time?
 
+Although users only care about the runtime, compile time optimization bring developers some benefits:
+
+- Cheaper CD/CI cost.
+- Less time wasted when compiling after making changes to a large project.
+
 
