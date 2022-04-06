@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>https://hvdev.cc/</loc>
+    </url>
+    <url>
+        <loc>https://hvdev.cc/about/</loc>
+    </url>
+    <url>
+        <loc>https://hvdev.cc/blog/</loc>
+    </url>
+    <url>
+        <loc>https://hvdev.cc/blog/build-a-simple-api-rust-hyper/</loc>
+        <lastmod>2022-01-10</lastmod>
+    </url>
+    <url>
+        <loc>https://hvdev.cc/blog/rust-compile-faster/</loc>
+        <lastmod>2022-02-16</lastmod>
+    </url>
+    <url>
+        <loc>https://hvdev.cc/blog/rust-sized-trait/</loc>
+        <lastmod>2022-02-10</lastmod>
+    </url>
+</urlset>

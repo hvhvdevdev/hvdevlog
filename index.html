@@ -1,0 +1,25 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta content="IE=edge"http-equiv=X-UA-Compatible><meta content="width=device-width,initial-scale=1"name=viewport><title> hvdev </title><link href=/main.css rel=stylesheet><body><nav aria-label="main navigation" class="navbar is-light"role=navigation><div class=container><div class=navbar-brand><a class=navbar-item href=/> <img src=/hvdev.svg> </a><a aria-expanded=false aria-label=menu class=navbar-burger data-target=navbarBasicExample role=button> <span aria-hidden=true></span> <span aria-hidden=true></span> <span aria-hidden=true></span> </a></div><div class=navbar-menu id=navbarBasicExample><div class=navbar-start><a class=navbar-item href=/>Profile</a><a class=navbar-item href=/blog>Blog</a></div><div class=navbar-end><a class=navbar-item href=https://twitter.com/hvhvdevdev>Twitter</a><a class=navbar-item href=https://github.com/hvhvdevdev>GitHub</a><a class=navbar-item href=https://youtube.lab.hvdev.cc>Youtube</a></div></div></div></nav><script>document.addEventListener('DOMContentLoaded', () => {
+
+        // Get all "navbar-burger" elements
+        const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+        // Check if there are any navbar burgers
+        if ($navbarBurgers.length > 0) {
+
+            // Add a click event on each of them
+            $navbarBurgers.forEach(el => {
+                el.addEventListener('click', () => {
+
+                    // Get the target from the "data-target" attribute
+                    const target = el.dataset.target;
+                    const $target = document.getElementById(target);
+
+                    // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+                    el.classList.toggle('is-active');
+                    $target.classList.toggle('is-active');
+
+                });
+            });
+        }
+
+    });</script><section class="hero is-primary is-medium"><div class=hero-body><p class=title>hvdev<p class="subtitle is-family-secondary">Code. Tales. Lonely traveler in fantasy realms.</div></section><main class="main section"><div class=container><div class=columns><div class="column is-10 is-offset-1"><div class=columns><div class="content column is-8 is-offset-2 is-family-secondary"><h1>Code is life!</h1><p>I am a developer who write code, and also tales. Code runs, and tales are fun to read.<p>I have many skills:<ul><li>Rust<li>WASM<li>TypeScript</ul><p><p>I will be building new products that reshape our world!</div></div></div></div></div></main><footer class=footer><div class="content has-text-centered"><p><strong> © 2022 hvdev </strong></div></footer>

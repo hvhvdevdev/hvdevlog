@@ -1,0 +1,25 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta content="IE=edge"http-equiv=X-UA-Compatible><meta content="width=device-width,initial-scale=1"name=viewport><title> Making Rust compile faster </title><link href=/main.css rel=stylesheet><body><nav aria-label="main navigation" class="navbar is-light"role=navigation><div class=container><div class=navbar-brand><a class=navbar-item href=/> <img src=/hvdev.svg> </a><a aria-expanded=false aria-label=menu class=navbar-burger data-target=navbarBasicExample role=button> <span aria-hidden=true></span> <span aria-hidden=true></span> <span aria-hidden=true></span> </a></div><div class=navbar-menu id=navbarBasicExample><div class=navbar-start><a class=navbar-item href=/>Profile</a><a class=navbar-item href=/blog>Blog</a></div><div class=navbar-end><a class=navbar-item href=https://twitter.com/hvhvdevdev>Twitter</a><a class=navbar-item href=https://github.com/hvhvdevdev>GitHub</a><a class=navbar-item href=https://youtube.lab.hvdev.cc>Youtube</a></div></div></div></nav><script>document.addEventListener('DOMContentLoaded', () => {
+
+        // Get all "navbar-burger" elements
+        const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+        // Check if there are any navbar burgers
+        if ($navbarBurgers.length > 0) {
+
+            // Add a click event on each of them
+            $navbarBurgers.forEach(el => {
+                el.addEventListener('click', () => {
+
+                    // Get the target from the "data-target" attribute
+                    const target = el.dataset.target;
+                    const $target = document.getElementById(target);
+
+                    // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+                    el.classList.toggle('is-active');
+                    $target.classList.toggle('is-active');
+
+                });
+            });
+        }
+
+    });</script><main class="main section"><div class=container><div class=columns><div class="column is-10 is-offset-1"><div class=columns><div class="column is-3"><div class="box is-shadowless px-0"><strong>Table of contents</strong><ul class="py-1 is-family-secondary"><li class=my-1><a href=https://hvdev.cc/blog/rust-compile-faster/#but-why-should-i-care-about-compile-time>But why should I care about compile time?</a><li class=my-1><a href=https://hvdev.cc/blog/rust-compile-faster/#how-to-make-rust-compile-faster>How to make Rust compile faster?</a> <ul><li><a href=https://hvdev.cc/blog/rust-compile-faster/#update-rust-toolchain-and-compiler>Update Rust Toolchain and Compiler</a><li><a href=https://hvdev.cc/blog/rust-compile-faster/#split-code-into-crates>Split code into crates</a><li><a href=https://hvdev.cc/blog/rust-compile-faster/#ci-caching>CI Caching</a></ul></ul></div></div><div class="column is-6"><h1 class=title>Making Rust compile faster</h1><p class="subtitle is-small is-family-secondary">2022-02-16<div class="content has-text-justified is-family-secondary"><p>We all know that compiling Rust code is often so slow because Rust actually prefer runtime to compile time. However, it is possible to make Rustc compile faster.</p><span id=continue-reading></span><h2 id=but-why-should-i-care-about-compile-time>But why should I care about compile time?</h2><p>Although users only care about the runtime, compile time optimization bring developers some benefits:<ul><li>Cheaper CD/CI cost.<li>Less time wasted when compiling after making changes to a large project.</ul><h2 id=how-to-make-rust-compile-faster>How to make Rust compile faster?</h2><h3 id=update-rust-toolchain-and-compiler>Update Rust Toolchain and Compiler</h3><p>Run <code>rustup update</code> to get the latest Rust version. Great efforts by Rust compiler team had made Rust compiler compile faster in its newer version.<h3 id=split-code-into-crates>Split code into crates</h3><p>Using <em>workspaces</em>, we can split our large crate into smaller ones to avoid repetitive compilation because only crates with changes will need recompilation.<h3 id=ci-caching>CI Caching</h3><p>Often, our code get rebuilt from scratch on CI. We can still do incremental build by caching <code>~/.cargo</code> and <code>target/</code> from previous builds.</div></div></div></div></div></div></main><footer class=footer><div class="content has-text-centered"><p><strong> © 2022 hvdev </strong></div></footer>

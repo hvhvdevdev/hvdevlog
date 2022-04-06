@@ -1,0 +1,30 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta content="IE=edge"http-equiv=X-UA-Compatible><meta content="width=device-width,initial-scale=1"name=viewport><title> Rust and its `Sized` trait </title><link href=/main.css rel=stylesheet><body><nav aria-label="main navigation" class="navbar is-light"role=navigation><div class=container><div class=navbar-brand><a class=navbar-item href=/> <img src=/hvdev.svg> </a><a aria-expanded=false aria-label=menu class=navbar-burger data-target=navbarBasicExample role=button> <span aria-hidden=true></span> <span aria-hidden=true></span> <span aria-hidden=true></span> </a></div><div class=navbar-menu id=navbarBasicExample><div class=navbar-start><a class=navbar-item href=/>Profile</a><a class=navbar-item href=/blog>Blog</a></div><div class=navbar-end><a class=navbar-item href=https://twitter.com/hvhvdevdev>Twitter</a><a class=navbar-item href=https://github.com/hvhvdevdev>GitHub</a><a class=navbar-item href=https://youtube.lab.hvdev.cc>Youtube</a></div></div></div></nav><script>document.addEventListener('DOMContentLoaded', () => {
+
+        // Get all "navbar-burger" elements
+        const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+        // Check if there are any navbar burgers
+        if ($navbarBurgers.length > 0) {
+
+            // Add a click event on each of them
+            $navbarBurgers.forEach(el => {
+                el.addEventListener('click', () => {
+
+                    // Get the target from the "data-target" attribute
+                    const target = el.dataset.target;
+                    const $target = document.getElementById(target);
+
+                    // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+                    el.classList.toggle('is-active');
+                    $target.classList.toggle('is-active');
+
+                });
+            });
+        }
+
+    });</script><main class="main section"><div class=container><div class=columns><div class="column is-10 is-offset-1"><div class=columns><div class="column is-3"><div class="box is-shadowless px-0"><strong>Table of contents</strong><ul class="py-1 is-family-secondary"><li class=my-1><a href=https://hvdev.cc/blog/rust-sized-trait/#the-sized-trait>The Sized trait</a><li class=my-1><a href=https://hvdev.cc/blog/rust-sized-trait/#sized-and-generic>Sized and Generic</a></ul></div></div><div class="column is-6"><h1 class=title>Rust and its `Sized` trait</h1><p class="subtitle is-small is-family-secondary">2022-02-10<div class="content has-text-justified is-family-secondary"><p>One of important things about Rust is <code>Sized</code> trait, which is an auto trait that get implemented automatically for for types that meet some certain criteria.</p><span id=continue-reading></span><h2 id=the-sized-trait>The <code>Sized</code> trait</h2><p><code>Sized</code> asserts that the size of the type is constant and known at the compile time. For instance, <code>u8</code> is <code>Sized</code> and its size is one byte. Meanwhile <code>Vec&LTT></code> takes 12 bytes on a 32bit platform or 24 bytes on a 64bit platform.<p>Pointers are also <code>sized</code>. Even pointers to unsized type are <code>Sized</code>.<p>However, we can not easily tell the size of a <code>str</code> at compile time, so it is a dynamically sized type.<h2 id=sized-and-generic><code>Sized</code> and Generic</h2><p>A function definiton like this...<pre class=language-rust data-lang=rust style=background-color:#eff1f5;color:#4f5b66;><code class=language-rust data-lang=rust><span style=color:#b48ead;>fn </span><span style=color:#8fa1b3;>myfunc</span><span>&LTT>(</span><span style=color:#bf616a;>t</span><span>: T) {}
+</span></code></pre><p>is same as...<pre class=language-rust data-lang=rust style=background-color:#eff1f5;color:#4f5b66;><code class=language-rust data-lang=rust><span style=color:#b48ead;>fn </span><span style=color:#8fa1b3;>myfunc</span><span>&LTT: Sized>(</span><span style=color:#bf616a;>t</span><span>: T) {}
+</span></code></pre><p>When we write generic code, every generic type parameter will get bound with the <code>Sized</code> trait automatically. If we do not like that and want to allow <code>T</code> to accept unsized type, we can bound the type parameter to <code>?Sized</code>. It means "optionally sized" and will accept both unsized and sized type.<pre class=language-rust data-lang=rust style=background-color:#eff1f5;color:#4f5b66;><code class=language-rust data-lang=rust><span style=color:#b48ead;>fn </span><span style=color:#8fa1b3;>debug</span><span>&LTT: Debug>(</span><span style=color:#bf616a;>t</span><span>: T) { </span><span style=color:#a7adba;>// T: Debug + Sized
+</span><span>    println!("</span><span style=color:#d08770;>{:?}</span><span>", t);
+</span><span>}
+</span></code></pre></div></div></div></div></div></div></main><footer class=footer><div class="content has-text-centered"><p><strong> © 2022 hvdev </strong></div></footer>

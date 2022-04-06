@@ -1,0 +1,72 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta content="IE=edge"http-equiv=X-UA-Compatible><meta content="width=device-width,initial-scale=1"name=viewport><title> Let's drop the framework: Build a simple API in Rust with Hyper - Part 1 </title><link href=/main.css rel=stylesheet><body><nav aria-label="main navigation" class="navbar is-light"role=navigation><div class=container><div class=navbar-brand><a class=navbar-item href=/> <img src=/hvdev.svg> </a><a aria-expanded=false aria-label=menu class=navbar-burger data-target=navbarBasicExample role=button> <span aria-hidden=true></span> <span aria-hidden=true></span> <span aria-hidden=true></span> </a></div><div class=navbar-menu id=navbarBasicExample><div class=navbar-start><a class=navbar-item href=/>Profile</a><a class=navbar-item href=/blog>Blog</a></div><div class=navbar-end><a class=navbar-item href=https://twitter.com/hvhvdevdev>Twitter</a><a class=navbar-item href=https://github.com/hvhvdevdev>GitHub</a><a class=navbar-item href=https://youtube.lab.hvdev.cc>Youtube</a></div></div></div></nav><script>document.addEventListener('DOMContentLoaded', () => {
+
+        // Get all "navbar-burger" elements
+        const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+        // Check if there are any navbar burgers
+        if ($navbarBurgers.length > 0) {
+
+            // Add a click event on each of them
+            $navbarBurgers.forEach(el => {
+                el.addEventListener('click', () => {
+
+                    // Get the target from the "data-target" attribute
+                    const target = el.dataset.target;
+                    const $target = document.getElementById(target);
+
+                    // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+                    el.classList.toggle('is-active');
+                    $target.classList.toggle('is-active');
+
+                });
+            });
+        }
+
+    });</script><main class="main section"><div class=container><div class=columns><div class="column is-10 is-offset-1"><div class=columns><div class="column is-3"><div class="box is-shadowless px-0"><strong>Table of contents</strong><ul class="py-1 is-family-secondary"><li class=my-1><a href=https://hvdev.cc/blog/build-a-simple-api-rust-hyper/#setup-hyper>Setup Hyper</a><li class=my-1><a href=https://hvdev.cc/blog/build-a-simple-api-rust-hyper/#echo-from-hyper>Echo from Hyper</a><li class=my-1><a href=https://hvdev.cc/blog/build-a-simple-api-rust-hyper/#implement-a-visitor-counter>Implement a visitor counter</a></ul></div></div><div class="column is-6"><h1 class=title>Let's drop the framework: Build a simple API in Rust with Hyper - Part 1</h1><p class="subtitle is-small is-family-secondary">2022-01-10<div class="content has-text-justified is-family-secondary"><p>It's time to not use a framework. Yet we need not really do everything from scratch. Hyper has come to our rescue.</p><span id=continue-reading></span><h2 id=setup-hyper>Setup Hyper</h2><p>You might have already got the familiar daily routine. Let us add some dependencies to our <code>Cargo.toml</code>:<pre class=language-toml data-lang=toml style=background-color:#eff1f5;color:#4f5b66;><code class=language-toml data-lang=toml><span>[dependencies]
+</span><span style=color:#bf616a;>hyper </span><span>= { </span><span style=color:#bf616a;>version </span><span>= "</span><span style=color:#a3be8c;>0.14.16</span><span>", </span><span style=color:#bf616a;>features </span><span>= ["</span><span style=color:#a3be8c;>full</span><span>"] }
+</span><span style=color:#bf616a;>tokio </span><span>= { </span><span style=color:#bf616a;>version </span><span>= "</span><span style=color:#a3be8c;>1.15.0</span><span>", </span><span style=color:#bf616a;>features </span><span>= ["</span><span style=color:#a3be8c;>full</span><span>"] }
+</span></code></pre><p>Of course, we will also need something to serialize our response data to JSON without wasting so much effort. Let us add <code>serde</code> and <code>serde_json</code>.<pre class=language-toml data-lang=toml style=background-color:#eff1f5;color:#4f5b66;><code class=language-toml data-lang=toml><span style=color:#bf616a;>serde </span><span>= { </span><span style=color:#bf616a;>version </span><span>= "</span><span style=color:#a3be8c;>1.0.133</span><span>", </span><span style=color:#bf616a;>features </span><span>= ["</span><span style=color:#a3be8c;>derive</span><span>"] }
+</span><span style=color:#bf616a;>serde_json </span><span>= "</span><span style=color:#a3be8c;>1.0.74</span><span>"
+</span></code></pre><h2 id=echo-from-hyper>Echo from Hyper</h2><p>Here is the content of our <code>main.rs</code>:<pre class=language-rust data-lang=rust style=background-color:#eff1f5;color:#4f5b66;><code class=language-rust data-lang=rust><span style=color:#b48ead;>use </span><span>hyper::service::{make_service_fn, service_fn};
+</span><span style=color:#b48ead;>use </span><span>hyper::{Body, Request, Response, Server};
+</span><span style=color:#b48ead;>use </span><span>std::{convert::Infallible, net::SocketAddr};
+</span><span>
+</span><span>async </span><span style=color:#b48ead;>fn </span><span style=color:#8fa1b3;>handle</span><span>(_: Request&LTBody>) -> Result&LTResponse&LTBody>, Infallible> {
+</span><span>    Ok(Response::new("</span><span style=color:#a3be8c;>Hello, World!!</span><span>".</span><span style=color:#96b5b4;>into</span><span>()))
+</span><span>}
+</span><span>
+</span><span>#[</span><span style=color:#bf616a;>tokio</span><span>::</span><span style=color:#bf616a;>main</span><span>]
+</span><span>async </span><span style=color:#b48ead;>fn </span><span style=color:#8fa1b3;>main</span><span>() {
+</span><span>    </span><span style=color:#b48ead;>let</span><span> addr = SocketAddr::from(([</span><span style=color:#d08770;>127</span><span>, </span><span style=color:#d08770;>0</span><span>, </span><span style=color:#d08770;>0</span><span>, </span><span style=color:#d08770;>1</span><span>], </span><span style=color:#d08770;>8181</span><span>));
+</span><span>
+</span><span>    </span><span style=color:#b48ead;>let</span><span> make_svc = </span><span style=color:#96b5b4;>make_service_fn</span><span>(|</span><span style=color:#bf616a;>_conn</span><span>| async { Ok::<_, Infallible>(</span><span style=color:#96b5b4;>service_fn</span><span>(handle)) });
+</span><span>
+</span><span>    </span><span style=color:#b48ead;>let</span><span> server = Server::bind(&addr).</span><span style=color:#96b5b4;>serve</span><span>(make_svc);
+</span><span>
+</span><span>    </span><span style=color:#b48ead;>if let </span><span>Err(e) = server.await {
+</span><span>        eprintln!("</span><span style=color:#a3be8c;>server error: </span><span style=color:#d08770;>{}</span><span>", e);
+</span><span>    }
+</span><span>}
+</span></code></pre><p>Enter <code>cargo run</code> on your terminal. Our web application is now serving at 127.0.0.1 on port 8181. Open a web browser (you already did) and navigate to <a href=http://localhost:8181>http://localhost:8181</a>. You should see "Hello, world!!" text appears on your screen, like this:<p><img alt="Hello, world!!"src=/img/hyperrs-img1.png><p>It works! But it is really boring.<p>But, now, we will be making it seem less boring. Let us add some dynamic content.<h2 id=implement-a-visitor-counter>Implement a visitor counter</h2><p>Our counter starts at 0. It will increase by 1 whenever someone visit our web page.<p>First, let add one more dependency, <code>lazy_static</code> to hold our counter variable globally:<pre class=language-toml data-lang=toml style=background-color:#eff1f5;color:#4f5b66;><code class=language-toml data-lang=toml><span>[dependencies]
+</span><span style=background-color:#bf616a;color:#eff1f5;>...</span><span>
+</span><span style=color:#bf616a;>lazy_static</span><span>= "</span><span style=color:#a3be8c;>1.4.0</span><span>"
+</span></code></pre><p>Okay, now we can easily get the counter working:<pre class=language-rust data-lang=rust style=background-color:#eff1f5;color:#4f5b66;><code class=language-rust data-lang=rust><span>#[</span><span style=color:#bf616a;>macro_use</span><span>]
+</span><span style=color:#b48ead;>extern crate</span><span> lazy_static;
+</span><span>
+</span><span>lazy_static! {
+</span><span>    </span><span style=color:#b48ead;>static ref </span><span style=color:#d08770;>COUNTER</span><span>: Mutex<</span><span style=color:#b48ead;>u32</span><span>> = Mutex::new(</span><span style=color:#d08770;>0</span><span>);
+</span><span>}
+</span></code></pre><p>Modify our <code>handle</code> function to add <code>1</code> to <code>COUNTER</code> for every request:<pre class=language-rust data-lang=rust style=background-color:#eff1f5;color:#4f5b66;><code class=language-rust data-lang=rust><span>async </span><span style=color:#b48ead;>fn </span><span style=color:#8fa1b3;>handle</span><span>(_: Request&LTBody>) -> Result&LTResponse&LTBody>, Infallible> {
+</span><span>    *</span><span style=color:#d08770;>COUNTER</span><span>.</span><span style=color:#96b5b4;>lock</span><span>().</span><span style=color:#96b5b4;>unwrap</span><span>() += </span><span style=color:#d08770;>1</span><span>;
+</span><span>    Ok(Response::new(
+</span><span>        format!("</span><span style=color:#a3be8c;>Number of visits:</span><span style=color:#d08770;>{}</span><span>", *</span><span style=color:#d08770;>COUNTER</span><span>.</span><span style=color:#96b5b4;>lock</span><span>().</span><span style=color:#96b5b4;>unwrap</span><span>()).</span><span style=color:#96b5b4;>into</span><span>(),
+</span><span>    ))
+</span><span>}
+</span></code></pre><p>Run our server again. Notice something wrong on your web browser? Our counter adds 2 to itself every time we hit refresh. Find a way to launch <code>DevTools</code> in you browser. Click on <code>network</code> tab. Refresh again.<p><img alt="Hyper.rs network tab"src=/img/hyperrs-img2.png><p>Try again with <code>curl</code>:<pre class=language-text data-lang=text style=background-color:#eff1f5;color:#4f5b66;><code class=language-text data-lang=text><span>C:\Users\hai>curl localhost:8181
+</span><span>Number of visits:9
+</span><span>C:\Users\hai>curl localhost:8181
+</span><span>Number of visits:10
+</span><span>C:\Users\hai>curl localhost:8181
+</span><span>Number of visits:11
+</span><span>C:\Users\hai>
+</span></code></pre><p>It works correctly this time.<p>In the next part of this tutorial, I will talk about routing and route matching so that the counter does not update when <code>favicon.ico</code> is requested.</div></div></div></div></div></div></main><footer class=footer><div class="content has-text-centered"><p><strong> © 2022 hvdev </strong></div></footer>
